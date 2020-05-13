@@ -1,9 +1,32 @@
 # Dev Campers APP by Brad Traversy 
 
 ## Workflow:
-- [] 
+- [ ] Setup
+    - [x] Specs [Link](Specs.md)
+    - [x] Setup GIT 
+    - [x] Setup Express
+    - [x] Setup DotENV
+    - [x] Add Dev and Prod Scripts in Pckg.json
+
+
+
 
 ## Misc
+
+### HTTP Request Methods (REST)
+1. GET
+2. POST
+3. PUT
+4. DELETE
+
+##### Resful API Standard
+- GET /todos --> get todos
+- GET /todos/1 --> get todo of id 1
+- POST /todos --> add todos
+- POST /todos/1 --> add todo of id 1
+- DELETE /todos/1 --> remove todo of id 1
+
+
 
 ### Important HTTP Status Code
 - 1.xx -> Informational
