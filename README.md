@@ -1,12 +1,21 @@
 # Dev Campers APP by Brad Traversy 
 
 ## Workflow:
+- [x] Specs [Link](Specs.md)
+    - [x] Routing Structure  
+
 - [ ] Setup
-    - [x] Specs [Link](Specs.md)
     - [x] Setup GIT 
     - [x] Setup Express
     - [x] Setup DotENV
     - [x] Add Dev and Prod Scripts in Pckg.json
+- [ ] Basic Routing
+    - [x] Setup Express Routes and Routes Dir
+    - [x] create routes dir    
+    - [x] setup express router and mount to server    
+    - [x] create controllers dir
+    - [x] add methods to routes on controller file
+    - [x] mount to express router
 
 
 
@@ -25,6 +34,9 @@
 - POST /todos --> add todos
 - POST /todos/1 --> add todo of id 1
 - DELETE /todos/1 --> remove todo of id 1
+
+#### Route Structure
+/api/v1/bootcamps
 
 
 
