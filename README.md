@@ -9,6 +9,7 @@
     - [x] Setup Express
     - [x] Setup DotENV
     - [x] Add Dev and Prod Scripts in Pckg.json
+
 - [ ] Basic Routing
     - [x] Setup Express Routes and Routes Dir
     - [x] create routes dir    

@@ -1,12 +1,18 @@
 const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const color = require('colors');
+const connectDb = require('./config/db.js');;
+
+//Env invocation
+dotenv.config({path: './config/config.env'});
+
+// connect DB
+connectDb();
+
 
 //Route Files
 const bootcamps = require('./routes/bootcamps');
-
-//Env invokation
-dotenv.config({path: './config/config.env'});
 
 const app = express();
 
@@ -16,7 +22,8 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-
+//Body Parser 
+app.use(express.json());
 
 //Mount Routers
 app.use('/api/v1/bootcamps', bootcamps);
@@ -25,8 +32,15 @@ app.use('/api/v1/bootcamps', bootcamps);
 
 
 
-
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on ${process.env.NODE_ENV} mode on port ${PORT}`);
+const server = app.listen(PORT, () => {
+  console.log(`Server running on ${process.env.NODE_ENV} mode on port ${PORT}`.yellow);
 });
+
+
+process.on('unhandledRejection',(err, promise) => {
+    console.log(`Error: ${err.message}`.red); 
+    server.close(() => process.exit(1));
+});
+
+
