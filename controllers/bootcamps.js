@@ -1,4 +1,5 @@
 const Bootcamp = require("../models/Bootcamp");
+const ErrorResponse = require("../utils/errResponse");
 
 //@desc :       Get all Bootcamps
 //@route :   GET /api/v1/bootcamps
@@ -12,7 +13,7 @@ exports.GetBootcamps = async (req, res, next) => {
       count: bootcamps.length,
       data: bootcamps,
     });
-  } catch (error) {
+  } catch (err) {
     res.status(400).json({
       success: false,
     });
@@ -27,19 +28,29 @@ exports.GetBootcamp = async (req, res, next) => {
     const bootcamp = await Bootcamp.findById(req.params.id);
 
     if (!bootcamp) {
-      return res.status(200).json({
-        success: false,
-      });
+      return next(
+        new ErrorResponse(
+          `Bootcamp not found with the id of ${req.params.id}`,
+          404
+        )
+      );
     }
 
     res.status(200).json({
       success: true,
       data: bootcamp,
     });
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-    });
+  } catch (err) {
+    //     res.status(400).json({
+    //       success: false,
+    //     });
+
+    next(
+      new ErrorResponse(
+        `Bootcamp not found with the id of ${req.params.id}`,
+        404
+      )
+    );
   }
 };
 
@@ -54,7 +65,7 @@ exports.createBootcamp = async (req, res, next) => {
       success: true,
       data: bootcamp,
     });
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({
       success: false,
     });
@@ -74,7 +85,7 @@ exports.updateBootcamp = async (req, res, next) => {
     if (!bootcamp) return res.status(400).json({ success: false });
 
     res.status(200).json({ success: true, data: bootcamp });
-  } catch (error) {
+  } catch (err) {
     res.status(400).json({ success: false });
   }
 };
@@ -89,7 +100,7 @@ exports.deleteBootcamp = async (req, res, next) => {
     if (!bootcamp) return res.status(400).json({ success: false });
 
     res.status(200).json({ success: true, data: {} });
-  } catch (error) {
+  } catch (err) {
     res.status(400).json({ success: false });
   }
 };
