@@ -1,9 +1,9 @@
 {
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
-    "javascript.preferences.quoteStyle": "single",
-    "typescript.preferences.quoteStyle": "single",
-    "prettier.jsxSingleQuote": true,
-    "prettier.configPath": "config/.prettierrc",
-    "prettier.singleQuote": true
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "prettier.jsxSingleQuote": true,
+  "prettier.useTabs": true,
+  "prettier.singleQuote": true
 }
