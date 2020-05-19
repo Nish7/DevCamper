@@ -1,24 +1,24 @@
-const ErrorResponse = require("../utils/errResponse");
+const ErrorResponse = require('../utils/errResponse');
 
 const errorHandler = (err, req, res, next) => {
+  console.log(err.statusCode);
   let error = { ...err };
-
   error.message = err.message;
 
   //CastError --> Bad ObjectId
-  if (err.name === "CastError") {
+  if (err.name === 'CastError') {
     const message = `Bootcamp not found with id of ${err.value}`;
     error = new ErrorResponse(message, 404);
   }
 
   //DuplicationError
   if (err.code === 11000) {
-    const message = "Duplicate field value entered";
+    const message = 'Duplicate field value entered';
     error = new ErrorResponse(message, 400);
   }
 
   //ValidationError
-  if (err.name === "ValidationError") {
+  if (err.name === 'ValidationError') {
     const message = Object.values(err.errors).map((val) => val.message);
     console.log(message);
     error = new ErrorResponse(message, 400);
@@ -27,7 +27,7 @@ const errorHandler = (err, req, res, next) => {
   //Response
   res.status(error.statusCode || 500).json({
     success: false,
-    error: error.message || "Server Error",
+    error: error.message || 'Server Error',
   });
 };
 
