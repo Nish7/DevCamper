@@ -36,6 +36,13 @@ exports.GetBootcamp = asyncHandler(async (req, res, next) => {
 //@route :      POST /api/v1/bootcamps
 //@access:            Private
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
+	req.body.user = req.user.id;
+
+	const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id });
+
+	if (publishedBootcamp && req.user.role !== 'admin') {
+		next(new ErrorResponse(`Cannot create more than one bootcamp`, 400));
+	}
 	const bootcamp = await Bootcamp.create(req.body);
 
 	res.status(201).json({
@@ -48,10 +55,7 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
 //@route :      PUT /api/v1/bootcamps/:id
 //@access:            Private
 exports.updateBootcamp = asyncHandler(async (req, res, next) => {
-	const bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-		runValidators: true,
-	});
+	let bootcamp = await Bootcamp.findById(req.params.id);
 
 	if (!bootcamp)
 		return next(
@@ -60,6 +64,18 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 				404
 			)
 		);
+
+	// Check user ownership
+	if (bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
+		return next(
+			new ErrorResponse(`User ${req.user.id} is not authorized for update`, 404)
+		);
+	}
+
+	bootcamp = await Bootcamp.findOneAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true,
+	});
 
 	res.status(200).json({ success: true, data: bootcamp });
 });
@@ -77,6 +93,13 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 				404
 			)
 		);
+
+	// Check user ownership
+	if (bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
+		return next(
+			new ErrorResponse(`User ${req.user.id} is not authorized for delete`, 404)
+		);
+	}
 
 	bootcamp.remove();
 
@@ -121,6 +144,13 @@ exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
 				404
 			)
 		);
+
+	// Check user ownership
+	if (bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
+		return next(
+			new ErrorResponse(`User ${req.user.id} is not authorized for delete`, 404)
+		);
+	}
 
 	if (!req.files) return next(new ErrorResponse(`file not found`, 400));
 

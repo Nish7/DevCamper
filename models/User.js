@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const crypto = require('crypto');
+const bcyrpt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
 	name: {
@@ -12,6 +15,7 @@ const UserSchema = new mongoose.Schema({
 			'please add an valid email',
 		],
 		required: [true, 'Please add an email'],
+		unique: true,
 	},
 	role: {
 		type: String,
@@ -31,6 +35,46 @@ const UserSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+});
+
+//Sign JWT Token
+UserSchema.methods.getSignedJwtToken = function () {
+	return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+		expiresIn: process.env.JWT_EXPIRE,
+	});
+};
+
+//Password check from db
+UserSchema.methods.matchPasswords = async function (enteredPassword) {
+	return await bcyrpt.compare(enteredPassword, this.password);
+};
+
+UserSchema.methods.getResetPasswordToken = function () {
+	const resetToken = crypto.randomBytes(20).toString('hex');
+
+	console.log(resetToken);
+
+	//Hash it
+	this.resetPasswordToken = crypto
+		.createHash('sha256')
+		.update(resetToken)
+		.digest('hex');
+
+	// expire
+
+	console.log(this.resetPasswordToken);
+
+	this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+	return resetToken;
+};
+
+UserSchema.pre('save', async function (next) {
+	if (!this.isModified('password')) {
+		next();
+	}
+
+	const salt = await bcyrpt.genSalt(10);
+	this.password = await bcyrpt.hash(this.password, salt);
 });
 
 module.exports = mongoose.model('User', UserSchema);
