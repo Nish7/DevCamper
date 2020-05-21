@@ -20,6 +20,10 @@ const { protect, authorize } = require('../middleware/auth');
 const courses = require('./courses');
 router.use('/:bootcampid/courses', courses);
 
+//Merge Bootcamp and Reviews
+const reviews = require('./reviews');
+router.use('/:bootcampid/reviews', reviews);
+
 router.route('/radius/:zipcode/:distance').get(GetBootcampInRadius);
 
 router
