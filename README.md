@@ -1,9 +1,10 @@
-# Dev Campers APP by Brad Traversy
+# Dev Campers App by Brad Traversy
 
 ## Docs
 
-[PostMan Docs ](https://documenter.getpostman.com/view/8762260/Szt7BBFE?version=latest)
-[Docgen](public/index.html)
+[PostMan Docs ](https://documenter.getpostman.com/view/8762260/Szt7BBFE?version=latest) <br/>
+[Docgen](public/index.html) <br/>
+[Deployed](https://apicodecamper.herokuapp.com/)<br/>
 
 ## Workflow:
 
