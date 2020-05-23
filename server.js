@@ -82,7 +82,7 @@ const server = app.listen(PORT, () => {
 	console.log(`Server running on ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
 
-process.on('unhandledRejection', (err, promise) => {
-	console.log(`Error: ${err.message}`);
-	server.close(() => process.exit(1));
-});
+// process.on('unhandledRejection', (err, promise) => {
+// 	console.log(`Error: ${err.message}`);
+// 	server.close(() => process.exit(1));
+// });
